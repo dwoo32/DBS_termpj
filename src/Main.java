@@ -169,15 +169,62 @@ public class Main{
     }
 
     private static void manageActivities(Connection connection, Scanner scanner) {
+        System.out.println("\n1. 활동 추가\n2. 활동 조회");
+        System.out.print("선택: ");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
 
+        switch (choice) {
+            case 1:
+                insertActivity(connection, scanner);
+                break;
+            case 2:
+                searchActivities(connection, scanner);
+                break;
+            default:
+                System.out.println("잘못된 선택입니다.");
+        }
     }
 
     private static void insertActivity(Connection connection, Scanner scanner) {
+        System.out.print("활동 이름: ");
+        String name = scanner.nextLine();
+        System.out.print("활동 날짜(YYYY-MM-DD): ");
+        String date = scanner.nextLine();
+        System.out.print("활동 설명: ");
+        String description = scanner.nextLine();
 
+        String sql = "INSERT INTO activities (name, date, description) VALUES (?, ?, ?)";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, name);
+            pstmt.setString(2, date);
+            pstmt.setString(3, description);
+            int rowsInserted = pstmt.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("활동 추가 성공!");
+            }
+        } catch (SQLException e) {
+            System.out.println("활동 추가 오류: " + e.getMessage());
+        }
     }
 
     private static void searchActivities(Connection connection, Scanner scanner) {
+        System.out.print("검색할 활동 이름: ");
+        String name = scanner.nextLine();
 
+        String sql = "SELECT * FROM activities WHERE name LIKE ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, "%" + name + "%");
+            ResultSet rs = pstmt.executeQuery();
+
+            System.out.println("\n활동 검색 결과:");
+            while (rs.next()) {
+                System.out.printf("ID: %d, 이름: %s, 날짜: %s, 설명: %s\n",
+                        rs.getInt("id"), rs.getString("name"), rs.getString("date"), rs.getString("description"));
+            }
+        } catch (SQLException e) {
+            System.out.println("활동 검색 오류: " + e.getMessage());
+        }
     }
 
     private static void manageFees(Connection connection, Scanner scanner) {
