@@ -92,19 +92,80 @@ public class Main{
     }
 
     private static void insertMember(Connection connection, Scanner scanner) {
+        System.out.print("회원 이름: ");
+        String name = scanner.nextLine();
+        System.out.print("학번: ");
+        String studentId = scanner.nextLine();
+        System.out.print("전화번호: ");
+        String phone = scanner.nextLine();
 
+        String sql = "INSERT INTO members (name, student_id, phone) VALUES (?, ?, ?)";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, name);
+            pstmt.setString(2, studentId);
+            pstmt.setString(3, phone);
+            int rowsInserted = pstmt.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("회원 추가 성공!");
+            }
+        } catch (SQLException e) {
+            System.out.println("회원 추가 오류: " + e.getMessage());
+        }
     }
 
     private static void updateMember(Connection connection, Scanner scanner) {
+        System.out.print("수정할 회원 ID: ");
+        int memberId = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("새 이름: ");
+        String newName = scanner.nextLine();
 
+        String sql = "UPDATE members SET name = ? WHERE id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, newName);
+            pstmt.setInt(2, memberId);
+            int rowsUpdated = pstmt.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("회원 정보 수정 성공!");
+            }
+        } catch (SQLException e) {
+            System.out.println("회원 정보 수정 오류: " + e.getMessage());
+        }
     }
 
     private static void deleteMember(Connection connection, Scanner scanner) {
+        System.out.print("삭제할 회원 ID: ");
+        int memberId = scanner.nextInt();
 
+        String sql = "DELETE FROM members WHERE id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, memberId);
+            int rowsDeleted = pstmt.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("회원 삭제 성공!");
+            }
+        } catch (SQLException e) {
+            System.out.println("회원 삭제 오류: " + e.getMessage());
+        }
     }
 
     private static void searchMembers(Connection connection, Scanner scanner) {
+        System.out.print("검색할 이름: ");
+        String name = scanner.nextLine();
 
+        String sql = "SELECT * FROM members WHERE name LIKE ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, "%" + name + "%");
+            ResultSet rs = pstmt.executeQuery();
+
+            System.out.println("\n회원 검색 결과:");
+            while (rs.next()) {
+                System.out.printf("ID: %d, 이름: %s, 학번: %s, 전화번호: %s\n",
+                        rs.getInt("id"), rs.getString("name"), rs.getString("student_id"), rs.getString("phone"));
+            }
+        } catch (SQLException e) {
+            System.out.println("회원 검색 오류: " + e.getMessage());
+        }
     }
 
     private static void manageActivities(Connection connection, Scanner scanner) {
