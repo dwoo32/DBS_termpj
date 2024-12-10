@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-public class Main {
+public class Main{
 
     private static final String URL_TEMPLATE = "jdbc:mysql://192.168.69.3:4567/%s";
     private static String USER;
@@ -66,6 +66,72 @@ public class Main {
             System.out.println("데이터베이스 연결 오류: " + e.getMessage());
         }
     }
+
+    private static void manageMembers(Connection connection, Scanner scanner) {
+        System.out.println("\n1. 회원 추가\n2. 회원 수정\n3. 회원 삭제\n4. 회원 조회");
+        System.out.print("선택: ");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (choice) {
+            case 1:
+                insertMember(connection, scanner);
+                break;
+            case 2:
+                updateMember(connection, scanner);
+                break;
+            case 3:
+                deleteMember(connection, scanner);
+                break;
+            case 4:
+                searchMembers(connection, scanner);
+                break;
+            default:
+                System.out.println("잘못된 선택입니다.");
+        }
+    }
+
+    private static void insertMember(Connection connection, Scanner scanner) {
+
+    }
+
+    private static void updateMember(Connection connection, Scanner scanner) {
+
+    }
+
+    private static void deleteMember(Connection connection, Scanner scanner) {
+
+    }
+
+    private static void searchMembers(Connection connection, Scanner scanner) {
+
+    }
+
+    private static void manageActivities(Connection connection, Scanner scanner) {
+
+    }
+
+    private static void insertActivity(Connection connection, Scanner scanner) {
+
+    }
+
+    private static void searchActivities(Connection connection, Scanner scanner) {
+
+    }
+
+    private static void manageFees(Connection connection, Scanner scanner) {
+
+    }
+
+    private static void insertFee(Connection connection, Scanner scanner) {
+
+    }
+
+    private static void searchFees(Connection connection, Scanner scanner) {
+
+    }
+
+    private static void listTables(Connection connection) {
+
+    }
 }
-
-
