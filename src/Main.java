@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-public class ClubManagement {
+public class Main {
 
     private static final String URL_TEMPLATE = "jdbc:mysql://192.168.69.3:4567/Club";
     private static String USER;
