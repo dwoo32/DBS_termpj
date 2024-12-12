@@ -240,10 +240,10 @@ public class Main {
         String studentId = scanner.nextLine();
         System.out.print("전화번호: ");
         String phone = scanner.nextLine();
-        System.out.print("역할 (Admin/Board_Member/Member): ");
+        System.out.print("역할 (Board_Member/Member): ");
         String role = scanner.nextLine();
 
-        Integer clubIdToInsert = (role.equals("Admin")) ? null : clubId; // Admin의 경우 clubId를 NULL로 설정
+        Integer clubIdToInsert = (role.equals("Admin")) ? null : clubId;
 
         String sql = "INSERT INTO Member (Name, Student_ID, PhoneNumber, Birth_Date, Join_Date, Role, Club_ID) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -265,8 +265,6 @@ public class Main {
             System.out.println("회원 추가 오류: " + e.getMessage());
         }
     }
-
-
 
     private static void updateMember(Connection connection, Scanner scanner, int clubId) {
         System.out.print("수정할 회원 ID: ");
