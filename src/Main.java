@@ -45,13 +45,13 @@ public class Main {
             }
 
             int clubId = -1;
-            if (!role.equals("Admin")) {
+
                 clubId = selectClub(connection, scanner);
                 if (clubId == -1) {
                     System.out.println("동아리를 선택하지 못했습니다. 프로그램을 종료합니다.");
                     return;
                 }
-            }
+
 
             boolean exit = false;
 
